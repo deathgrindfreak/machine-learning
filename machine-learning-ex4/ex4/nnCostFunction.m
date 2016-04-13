@@ -69,10 +69,10 @@ a = sigmoid(X*Theta1');
 a = [ones(size(a,1), 1) a];
 s = sigmoid(a*Theta2');
 
-J = (-1/m) * sum((y_n .* log(s) + (1-y_n) .* log(1-s))(:))
+J = (-1/m) * sum((y_n .* log(s) + (1-y_n) .* log(1-s))(:));
 l1 = sum((0.5 * lambda * (Theta1 * Theta1') / m)(:));
 l2 = sum((0.5 * lambda * (Theta2 * Theta2') / m)(:));
-J += l1 + l2
+J += l1 + l2;
 
 % -------------------------------------------------------------
 
