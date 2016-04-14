@@ -66,20 +66,31 @@ Theta2_grad = zeros(size(Theta2));
 y_n = eye(num_labels)(y,:);
 
 % feed forward
-X = [ones(size(X,1), 1) X];
-a = sigmoid(X*Theta1');
-a = [ones(size(a,1), 1) a];
-s = sigmoid(a*Theta2');
+a1 = [ones(size(X,1), 1) X];
+z2 = a1 * Theta1';
+a2 = sigmoid(z2);
+a2 = [ones(size(a2,1), 1) a2];
+z3 = a2 * Theta2';
+a3 = sigmoid(z3);
 
 % Slice off the bias row
 Theta1 = Theta1(:, 2:size(Theta1, 2));
 Theta2 = Theta2(:, 2:size(Theta2, 2));
 
-J = (-1/m) * sum((y_n .* log(s) + (1-y_n) .* log(1-s))(:));
+J = (-1/m) * sum((y_n .* log(a3) + (1-y_n) .* log(1-a3))(:));
 l1 = 0.5 * (lambda / m) * sum((Theta1 .* Theta1)(:));
 l2 = 0.5 * (lambda / m) * sum((Theta2 .* Theta2)(:));
 J += l1 + l2;
 
+%for t = 1:m
+d3 = a3 - y_n;
+d2 = (d3 * Theta2) .* sigmoidGradient(z2);
+Delta1 = d2' * a1;
+Delta2 = d3' * a2;
+Theta1_grad = Delta1 / m;
+Theta2_grad = Delta2 / m;
+
+%endfor
 % -------------------------------------------------------------
 
 % =========================================================================
