@@ -62,13 +62,16 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% unroll y
 y_n = eye(num_labels)(y,:);
 
+% feed forward
 X = [ones(size(X,1), 1) X];
 a = sigmoid(X*Theta1');
 a = [ones(size(a,1), 1) a];
 s = sigmoid(a*Theta2');
 
+% Slice off the bias row
 Theta1 = Theta1(:, 2:size(Theta1, 2));
 Theta2 = Theta2(:, 2:size(Theta2, 2));
 
