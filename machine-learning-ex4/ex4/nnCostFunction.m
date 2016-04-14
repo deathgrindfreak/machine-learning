@@ -74,23 +74,25 @@ z3 = a2 * Theta2';
 a3 = sigmoid(z3);
 
 % Slice off the bias row
-Theta1 = Theta1(:, 2:size(Theta1, 2));
-Theta2 = Theta2(:, 2:size(Theta2, 2));
+Th1 = Theta1(:, 2:size(Theta1, 2));
+Th2 = Theta2(:, 2:size(Theta2, 2));
 
 J = (-1/m) * sum((y_n .* log(a3) + (1-y_n) .* log(1-a3))(:));
-l1 = 0.5 * (lambda / m) * sum((Theta1 .* Theta1)(:));
-l2 = 0.5 * (lambda / m) * sum((Theta2 .* Theta2)(:));
+l1 = 0.5 * (lambda / m) * sum((Th1 .* Th1)(:));
+l2 = 0.5 * (lambda / m) * sum((Th2 .* Th2)(:));
 J += l1 + l2;
 
-%for t = 1:m
+% Initialize first column to zeroes
+Theta1(:,1) = 0;
+Theta2(:,1) = 0;
+
 d3 = a3 - y_n;
-d2 = (d3 * Theta2) .* sigmoidGradient(z2);
+d2 = (d3 * Th2) .* sigmoidGradient(z2);
 Delta1 = d2' * a1;
 Delta2 = d3' * a2;
-Theta1_grad = Delta1 / m;
-Theta2_grad = Delta2 / m;
+Theta1_grad = Delta1 / m + (lambda / m) * Theta1;
+Theta2_grad = Delta2 / m + (lambda / m) * Theta2;
 
-%endfor
 % -------------------------------------------------------------
 
 % =========================================================================
