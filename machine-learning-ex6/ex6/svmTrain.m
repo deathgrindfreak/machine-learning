@@ -32,8 +32,8 @@ end
 m = size(X, 1);
 n = size(X, 2);
 
-% Map 0 to -1
 Y(Y==0) = -1;
+% Map 0 to -1
 
 % Variables
 alphas = zeros(m, 1);
